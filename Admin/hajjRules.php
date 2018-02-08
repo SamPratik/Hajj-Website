@@ -1,14 +1,12 @@
-<?php session_start(); ?>
-<?php include_once("dbConnector.php"); ?>
 <?php
+	session_start();
+	include_once("dbConnector.php");
+
 	if($_SESSION["hajj_website"] != "Yes") {
 		header("location: index.php");
 	}
-?>
 
-<!-------------Inserting Hajj Rule into database using PHP----------->
-<?php
-
+	//Inserting Hajj Rule into database using PHP
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 		if(!empty($_POST["rules"])) {
