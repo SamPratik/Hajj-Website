@@ -1,5 +1,27 @@
-<?php session_start(); ?>
-<?php include_once("dbConnector.php"); ?>
+<?php
+	session_start();
+	include_once("dbConnector.php");
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+		$username = mysqli_real_escape_string($connection,$_POST["username"]);
+		$password = mysqli_real_escape_string($connection,$_POST["password"]);
+		$enc_password = md5($password);
+
+		$login = "SELECT username,password FROM admin WHERE username='{$username}' AND password='{$enc_password}'";
+		$result = mysqli_query($connection,$login);
+
+		while($row = mysqli_fetch_assoc($result)) {
+			if($username == $row["username"] && $enc_password == $row["password"]) {
+				$_SESSION["hajj_website"] = "Yes";
+				$_SESSION["username"] = $username;
+				$_SESSION["postMessage"] = '';
+				header("location: home.php");
+			}
+		}
+
+	}
+
+?>
 
 <?php
 	if(!empty($_SESSION)) {
@@ -89,31 +111,6 @@
         </form>
     </div>
 
-
-    <!------------Matching username & password using PHP----------->
-    <?php
-
-		if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-			$username = mysqli_real_escape_string($connection,$_POST["username"]);
-			$password = mysqli_real_escape_string($connection,$_POST["password"]);
-			$enc_password = md5($password);
-
-			$login = "SELECT username,password FROM admin WHERE username='{$username}' AND password='{$enc_password}'";
-			$result = mysqli_query($connection,$login);
-
-			while($row = mysqli_fetch_assoc($result)) {
-				if($username == $row["username"] && $enc_password == $row["password"]) {
-					$_SESSION["hajj_website"] = "Yes";
-					$_SESSION["username"] = $username;
-					$_SESSION["postMessage"] = '';
-					header("location: home.php");
-				}
-			}
-
-		}
-
-	?>
 
 </body>
 </html>
