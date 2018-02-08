@@ -1,10 +1,16 @@
-<?php include_once("dbConnector.php"); ?>
+<?php
+	session_start();
+	include_once("dbConnector.php");
+	if($_SESSION["hajj_website"] != "Yes") {
+		header("location: index.php");
+	}
+?>
 
 <!------------Retrieving News------------>
 <?php
 	$SelectNews = "SELECT id,heading,body FROM recent_news WHERE id={$_GET['newsId']}";
 	$ResultNews = mysqli_query($connection,$SelectNews);
-	
+
 	$RowNews = mysqli_fetch_assoc($ResultNews);
 ?>
 
@@ -23,34 +29,34 @@
 
 <style>
 	.content {
-		padding:32px 0px;	
+		padding:32px 0px;
 	}
-	
+
 	.news-body {
 		line-height:1.5;
-		font-size:18px;	
+		font-size:18px;
 		word-spacing:1.5px;
 	}
-	
+
 	.dropdown-menu li a {
 		background-color:#fff !important;
 		color:#239B56 !important;
 		-webkit-transition:background-color .5s, color .5s;
 		transition:background-color .5s, color .5s;
 	}
-	
+
 	.dropdown-menu li {
 		background-color:#fff !important;
 		-webkit-transition:background-color 1s;
 		transition:background-color .5s;
 	}
-	
+
 
 	.dropdown-menu li:hover {
 		background-color:#239B56 !important;
 		color:#fff;
 	}
-	
+
 	.dropdown-menu li a:hover {
 		background-color:#239B56 !important;
 		color:#fff !important;
@@ -59,7 +65,7 @@
 </head>
 
 <body>
-	
+
 <!-------------------START: Header------------------->
 <?php include_once("header.php"); ?>
 <!-------------------END: Header------------------->
@@ -67,17 +73,17 @@
 
 <div class="content">
 	<div class="container text-justify">
-    
+
     	<h2><?php echo $RowNews['heading']; ?></h2><br/>
-        
+
         <p class="news-body text-justify"><?php echo nl2br($RowNews['body']); ?></p>
     </div>
 </div>
 
 
-<!-------------------START: Footer------------------->    
+<!-------------------START: Footer------------------->
 <?php include_once("footer.php"); ?>
-<!-------------------END: Footer------------------->   
+<!-------------------END: Footer------------------->
 
 </body>
 </html>

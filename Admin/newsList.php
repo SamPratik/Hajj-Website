@@ -1,12 +1,10 @@
-<?php session_start(); ?>
-<?php include_once("dbConnector.php"); ?>
-
 <?php
+	session_start();
+	include_once("dbConnector.php");
 	if($_SESSION["hajj_website"] != "Yes") {
 		header("location: index.php");
 	}
 ?>
-
 <!----------Retrieving News------------>
 <?php
 	$SelectNews = "SELECT id,heading,body FROM recent_news ORDER BY id DESC";

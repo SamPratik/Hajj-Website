@@ -1,7 +1,6 @@
-<?php session_start(); ?>
-<?php include_once("dbConnector.php"); ?>
-
 <?php
+	session_start();
+	include_once("dbConnector.php");
 	if($_SESSION["hajj_website"] != "Yes") {
 		header("location: index.php");
 	}
